@@ -1,1 +1,5 @@
+/Users/BALLACK/Documents/workspace/webstore/src/main/java/com/packt/webstore/domain/repository/ProductRepository.java
+/Users/BALLACK/Documents/workspace/webstore/src/main/java/com/packt/webstore/domain/repository/impl/InMemoryProductRepository.java
+/Users/BALLACK/Documents/workspace/webstore/src/main/java/com/packt/webstore/domain/Product.java
 /Users/BALLACK/Documents/workspace/webstore/src/main/java/com/packt/webstore/controller/HomeController.java
+/Users/BALLACK/Documents/workspace/webstore/src/main/java/com/packt/webstore/controller/ProductController.java
