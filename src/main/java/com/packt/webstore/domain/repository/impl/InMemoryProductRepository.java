@@ -46,4 +46,21 @@ public class InMemoryProductRepository implements ProductRepository {
 		return listOfProducts;
 	}
 
+	public Product getProductById(String productId) {
+		// TODO Auto-generated method stub
+		Product productById = null;
+		System.out.println("LUAN LLLLLL");
+		for (Product product : listOfProducts) {
+			if (product != null && product.getProductId() != null
+					&& product.getProductId().equals(productId)) {
+				productById = product;
+				break;
+			}
+		}
+		if (productById == null) {
+			throw new IllegalArgumentException(
+					"No products found with the product id: " + productId);
+		}
+		return productById;
+	}
 }
