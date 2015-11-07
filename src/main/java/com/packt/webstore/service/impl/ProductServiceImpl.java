@@ -32,4 +32,9 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.getProductsByFilter(filterParams);
 	}
 
+	public Product getProductById(String productId) {
+		// TODO Auto-generated method stub
+		return productRepository.getProductById(productId);
+	}
+
 }
