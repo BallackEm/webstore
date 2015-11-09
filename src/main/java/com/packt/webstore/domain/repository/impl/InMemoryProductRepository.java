@@ -99,9 +99,51 @@ public class InMemoryProductRepository implements ProductRepository {
 			}
 		}
 
+		// if (criterias.contains("low")) {
+		// for (String category : filterParams.get("category")) {
+		// productsByCategory.addAll(this.getProductsByCategory(category));
+		// }
+		// }
+
 		productsByCategory.retainAll(productsByBrand);
 
 		return productsByCategory;
+	}
+
+	public Set<Product> getProductsByPriceFilter(Map<String, List<String>> filterParams) {
+		
+		Set<Product> productsByPriceFilter = new HashSet<Product>();
+		Set<String> criterias = filterParams.keySet();
+		if (criterias.contains("low")) {
+			if (criterias.contains("high")) {
+				String min = filterParams.get("low").get(0);
+				BigDecimal minMoney = new BigDecimal(min.replaceAll(",", ""));
+				
+				String max = filterParams.get("high").get(0);
+				BigDecimal maxMoney = new BigDecimal(max.replaceAll(",", ""));
+
+				for (Product product : listOfProducts) {
+					if (product.getUnitPrice().compareTo(minMoney) >= 0
+							&& product.getUnitPrice().compareTo(maxMoney) <= 0) {
+						productsByPriceFilter.add(product);
+					}
+				}
+			}
+		}
+		
+		return productsByPriceFilter;
+	}
+
+	public List<Product> getProductsByManufacturer(String manufacturer) {
+		// TODO Auto-generated method stub
+		List<Product> productsByManufacturer = new ArrayList<Product>();
+		for (Product product : listOfProducts) {
+			if (manufacturer.equalsIgnoreCase(product.getManufacturer())) {
+				productsByManufacturer.add(product);
+			}
+		}
+
+		return productsByManufacturer;
 	}
 
 }

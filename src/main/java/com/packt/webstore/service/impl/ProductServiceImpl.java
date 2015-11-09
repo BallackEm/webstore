@@ -28,13 +28,24 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.getProductsByCategory(category);
 	}
 
-	public Set<Product> getProductsByFilter( Map<String, List<String>> filterParams){
+	public Set<Product> getProductsByFilter(
+			Map<String, List<String>> filterParams) {
 		return productRepository.getProductsByFilter(filterParams);
 	}
 
 	public Product getProductById(String productId) {
 		// TODO Auto-generated method stub
 		return productRepository.getProductById(productId);
+	}
+
+	public List<Product> getProductsByManufacturer(String manufacturer) {
+		// TODO Auto-generated method stub
+		return productRepository.getProductsByManufacturer(manufacturer);
+	}
+	
+	public Set<Product> getProductsByPriceFilter(Map<String, List<String>> filterParams)
+	{
+		return productRepository.getProductsByPriceFilter(filterParams);
 	}
 
 }
