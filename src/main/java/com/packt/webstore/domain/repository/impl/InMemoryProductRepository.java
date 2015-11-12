@@ -146,4 +146,9 @@ public class InMemoryProductRepository implements ProductRepository {
 		return productsByManufacturer;
 	}
 
+	public void addProduct(Product product) {
+		// TODO Auto-generated method stub
+		listOfProducts.add(product);
+	}
+
 }
