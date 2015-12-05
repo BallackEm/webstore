@@ -2,6 +2,8 @@ package com.packt.webstore.domain;
 
 import java.math.BigDecimal;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Product {
 	private String productId;
 	private String name;
@@ -13,6 +15,7 @@ public class Product {
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
+	private MultipartFile productImage;
 	
 	/**
 	 * 
@@ -27,8 +30,6 @@ public class Product {
 		this.name = name;
 		this.unitPrice = unitPrice;
 	}
-
-
 	public String getProductId() {
 		return productId;
 	}
@@ -125,6 +126,16 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", name=" + name + "]";
+	}
+
+
+	public MultipartFile getProductImage() {
+		return productImage;
+	}
+
+
+	public void setProductImage(MultipartFile productImage) {
+		this.productImage = productImage;
 	}
 	
 	
