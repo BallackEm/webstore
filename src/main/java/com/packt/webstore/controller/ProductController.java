@@ -133,15 +133,29 @@ public class ProductController {
 		MultipartFile productImage = newProduct.getProductImage();
 		String rootDirectory = request.getSession().getServletContext()
 				.getRealPath("/");
+		System.out.println(rootDirectory);
 		if (productImage != null && !productImage.isEmpty()) {
 			try {
 				productImage.transferTo(new File(rootDirectory
-						+ "resources\\images\\" + newProduct.getProductId()
+						+ "resources//images//" + newProduct.getProductId()
 						+ ".png"));
 			} catch (Exception e) {
 				throw new RuntimeException("Product Image saving failed", e);
 			}
 		}
+		
+		MultipartFile userManual = newProduct.getUserManual();
+		
+		if (userManual != null && !userManual.isEmpty()) {
+			try {
+				userManual.transferTo(new File(rootDirectory
+						+ "resources//pdf//" + newProduct.getUserManual()
+						+ ".pdf"));
+			} catch (Exception e) {
+				throw new RuntimeException("User manual saving failed", e);
+			}
+		}
+		
 		productService.addProduct(newProduct);
 		return "redirect:/products";
 	}
@@ -151,7 +165,7 @@ public class ProductController {
 		binder.setDisallowedFields("unitsInOrder", "discontinued");
 		binder.setAllowedFields("productId", "name", "unitPrice",
 				"description", "manufacturer", "category", "unitsInStock","condition",
-				"productImage");
+				"productImage","userManual");
 	}
 
 }

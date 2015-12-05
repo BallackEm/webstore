@@ -16,6 +16,7 @@ public class Product {
 	private boolean discontinued;
 	private String condition;
 	private MultipartFile productImage;
+	private MultipartFile userManual;
 	
 	/**
 	 * 
@@ -136,6 +137,16 @@ public class Product {
 
 	public void setProductImage(MultipartFile productImage) {
 		this.productImage = productImage;
+	}
+
+
+	public MultipartFile getUserManual() {
+		return userManual;
+	}
+
+
+	public void setUserManual(MultipartFile userManual) {
+		this.userManual = userManual;
 	}
 	
 	
