@@ -2,8 +2,14 @@ package com.packt.webstore.domain;
 
 import java.math.BigDecimal;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
+
+@XmlRootElement
 public class Product {
 	private String productId;
 	private String name;
@@ -15,8 +21,10 @@ public class Product {
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
-	private MultipartFile productImage;
 	private MultipartFile userManual;
+	
+	@JsonIgnore
+	private MultipartFile productImage;
 	
 	/**
 	 * 
@@ -129,7 +137,18 @@ public class Product {
 		return "Product [productId=" + productId + ", name=" + name + "]";
 	}
 
-
+	@XmlTransient
+	public MultipartFile getUserManual() {
+		return userManual;
+	}
+	
+	
+	public void setUserManual(MultipartFile userManual) {
+		this.userManual = userManual;
+	}
+	
+	
+	@XmlTransient
 	public MultipartFile getProductImage() {
 		return productImage;
 	}
@@ -140,14 +159,6 @@ public class Product {
 	}
 
 
-	public MultipartFile getUserManual() {
-		return userManual;
-	}
-
-
-	public void setUserManual(MultipartFile userManual) {
-		this.userManual = userManual;
-	}
 	
 	
 	
