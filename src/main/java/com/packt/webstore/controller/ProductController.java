@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,8 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.packt.webstore.domain.Product;
+import com.packt.webstore.exception.NoProductsFoundUnderCategoryException;
+import com.packt.webstore.exception.ProductNotFoundException;
 import com.packt.webstore.service.ProductService;
 
 @Controller
@@ -50,8 +54,14 @@ public class ProductController {
 	@RequestMapping("/{category}")
 	public String getProductsByCategory(Model model,
 			@PathVariable("category") String productCategory) {
-		model.addAttribute("products",
-				productService.getProductsByCategory(productCategory));
+
+		List<Product> products = productService
+				.getProductsByCategory(productCategory);
+		if (products == null || products.isEmpty()) {
+			throw new NoProductsFoundUnderCategoryException();
+		}
+
+		model.addAttribute("products", products);
 		return "products";
 	}
 
@@ -123,7 +133,7 @@ public class ProductController {
 	public String processAddNewProductForm(
 			@ModelAttribute("newProduct") Product newProduct,
 			BindingResult result, HttpServletRequest request) {
-		
+
 		String[] suppressedFields = result.getSuppressedFields();
 		if (suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: "
@@ -143,9 +153,9 @@ public class ProductController {
 				throw new RuntimeException("Product Image saving failed", e);
 			}
 		}
-		
+
 		MultipartFile userManual = newProduct.getUserManual();
-		
+
 		if (userManual != null && !userManual.isEmpty()) {
 			try {
 				userManual.transferTo(new File(rootDirectory
@@ -155,7 +165,7 @@ public class ProductController {
 				throw new RuntimeException("User manual saving failed", e);
 			}
 		}
-		
+
 		productService.addProduct(newProduct);
 		return "redirect:/products";
 	}
@@ -164,8 +174,19 @@ public class ProductController {
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("unitsInOrder", "discontinued");
 		binder.setAllowedFields("productId", "name", "unitPrice",
-				"description", "manufacturer", "category", "unitsInStock","condition",
-				"productImage","userManual");
+				"description", "manufacturer", "category", "unitsInStock",
+				"condition", "productImage", "userManual");
+	}
+
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ModelAndView handleError(HttpServletRequest req,
+			ProductNotFoundException exception) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("invalidProductId", exception.getProductId());
+		mav.addObject("exception", exception);
+		mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
+		mav.setViewName("productNotFound");
+		return mav;
 	}
 
 }
