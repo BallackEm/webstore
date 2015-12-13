@@ -7,7 +7,7 @@
 	<!-- This tag registers the DefaultAnnotationHandlerMapping and AnnotationMethodHandlerAdapter 
 		beans that are required for Spring MVC -->
 
-	<mvc:annotation-driven enable-matrix-variables="true" />
+	<mvc:annotation-driven enable-matrix-variables="true" validator="validator"/>
 
 	<mvc:interceptors>
 		<bean class="com.packt.webstore.interceptor.PerformanceMonitorInterceptor" />
@@ -76,6 +76,10 @@
 	
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 	   <property name="defaultLocale" value="en" />
+	</bean>
+	
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
 	</bean>
 
 </beans>

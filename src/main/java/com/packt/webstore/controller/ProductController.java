@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -131,42 +132,46 @@ public class ProductController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String processAddNewProductForm(
-			@ModelAttribute("newProduct") Product newProduct,
+			@ModelAttribute("newProduct") @Valid Product productToBeAdded,
 			BindingResult result, HttpServletRequest request) {
-
+		
+		if (result.hasErrors()) {
+			return "addProduct";
+		}
+		
 		String[] suppressedFields = result.getSuppressedFields();
 		if (suppressedFields.length > 0) {
 			throw new RuntimeException("Attempting to bind disallowed fields: "
 					+ StringUtils.arrayToCommaDelimitedString(suppressedFields));
 		}
 
-		MultipartFile productImage = newProduct.getProductImage();
+		MultipartFile productImage = productToBeAdded.getProductImage();
 		String rootDirectory = request.getSession().getServletContext()
 				.getRealPath("/");
 		System.out.println(rootDirectory);
 		if (productImage != null && !productImage.isEmpty()) {
 			try {
 				productImage.transferTo(new File(rootDirectory
-						+ "resources//images//" + newProduct.getProductId()
+						+ "resources//images//" + productToBeAdded.getProductId()
 						+ ".png"));
 			} catch (Exception e) {
 				throw new RuntimeException("Product Image saving failed", e);
 			}
 		}
 
-		MultipartFile userManual = newProduct.getUserManual();
+		MultipartFile userManual = productToBeAdded.getUserManual();
 
 		if (userManual != null && !userManual.isEmpty()) {
 			try {
 				userManual.transferTo(new File(rootDirectory
-						+ "resources//pdf//" + newProduct.getUserManual()
+						+ "resources//pdf//" + productToBeAdded.getUserManual()
 						+ ".pdf"));
 			} catch (Exception e) {
 				throw new RuntimeException("User manual saving failed", e);
 			}
 		}
 
-		productService.addProduct(newProduct);
+		productService.addProduct(productToBeAdded);
 		return "redirect:/products";
 	}
 
