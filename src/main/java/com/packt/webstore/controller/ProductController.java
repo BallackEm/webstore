@@ -175,7 +175,7 @@ public class ProductController {
 		binder.setDisallowedFields("unitsInOrder", "discontinued");
 		binder.setAllowedFields("productId", "name", "unitPrice",
 				"description", "manufacturer", "category", "unitsInStock",
-				"condition", "productImage", "userManual");
+				"condition", "productImage", "userManual", "language");
 	}
 
 	@ExceptionHandler(ProductNotFoundException.class)
@@ -187,6 +187,11 @@ public class ProductController {
 		mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
 		mav.setViewName("productNotFound");
 		return mav;
+	}
+
+	@RequestMapping("/invalidPromoCode")
+	public String invalidPromoCode() {
+		return "invalidPromoCode";
 	}
 
 }
