@@ -1,8 +1,14 @@
 package com.packt.webstore.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CartItem {
+public class CartItem implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4832269410440557461L;
+	
 	private Product product;
 	private int quantity;
 	private BigDecimal totalPrice;

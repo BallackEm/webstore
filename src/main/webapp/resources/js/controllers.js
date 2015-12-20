@@ -7,7 +7,7 @@ cartApp.controller('cartCtrl', function($scope, $http) {
 				});
 	};
 	$scope.clearCart = function() {
-		$http.del('/webstore/rest/cart/' + $scope.cartId).success(
+		$http.delete('/webstore/rest/cart/' + $scope.cartId).success(
 				$scope.refreshCart($scope.cartId));
 	};
 	$scope.initCartId = function(cartId) {
