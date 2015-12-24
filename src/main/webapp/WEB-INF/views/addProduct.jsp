@@ -3,27 +3,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-
-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/boo
 tstrap.min.css">
 <title>Products</title>
 </head>
 <body>
-	<section>
-		<div class="jumbotron">
-			<a href="<c:url value="/j_spring_security_logout" />"
-				class="btn btndanger btn-mini pull-right">logout</a>
-			<div class="pull-right" style="padding-right: 50px">
-				<a href="?language=en">English</a>|<a href="?language=nl">Dutch</a>
-			</div>
-			<div class="container">
-				<h1>Products</h1>
-				<p>Add products</p>
-			</div>
-		</div>
-	</section>
+	
 	<section class="container">
 		<form:form modelAttribute="newProduct" class="form-horizontal" enctype="multipart/form-data">
 			<form:errors path="*" cssClass="alert alert-danger" element="div"/>
